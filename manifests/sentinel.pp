@@ -57,11 +57,11 @@ class redis::sentinel (
   exec { 'cp_sentinel_conf':
     command     => '/bin/cp /etc/sentinel.conf.puppet /etc/sentinel.conf',
     refreshonly => true,
-    notify      => Service[sentinel],
+    notify      => Service[redis-sentinel],
   }
 
   # Run it!
-  service { 'sentinel':
+  service { 'redis-sentinel':
     ensure     => running,
     enable     => true,
     hasrestart => true,
@@ -86,7 +86,7 @@ class redis::sentinel (
   exec { 'configure_sentinel':
     command     => $config_script,
     refreshonly => true,
-    require     => [ Service['sentinel'], File[$config_script] ],
+    require     => [ Service['redis-sentinel'], File[$config_script] ],
   }
 
 }
